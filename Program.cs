@@ -10,12 +10,12 @@ namespace AbogadosExpedientes
             alejo = new EstudioJuridico(); //instancia de la clase EstudioJuridico
 
             //declaro y creo 5 objetos de la clase abogado
-            Abogado abogado1 = new Abogado("Javier", "Perez", "2222", "Laboral", "1");
-            Abogado abogado2 = new Abogado("Gabriela", "Acosta", "3333", "Penal", "2");
-            Abogado abogado3 = new Abogado("Fernando", "Burlando", "4444", "Penal", "2");
-            Abogado abogado4 = new Abogado("Matias", "Morla", "5555", "Comercial", "4");
-            Abogado abogado5 = new Abogado("Ana", "Rosenfel", "6666", "Familia", "5");
-
+            Abogado abogado1 = new Abogado("Javier", "Perez", "2222", "Laboral", 5);
+            Abogado abogado2 = new Abogado("Gabriela", "Acosta", "3333", "Penal", 0);
+            Abogado abogado3 = new Abogado("Fernando", "Burlando", "4444", "Penal", 0);
+            Abogado abogado4 = new Abogado("Matias", "Morla", "5555", "Comercial", 0);
+            Abogado abogado5 = new Abogado("Ana", "Rosenfel", "6666", "Familia", 0);            
+            
             //metodo que agrega abogados
             alejo.agregarAbogado(abogado1);
             alejo.agregarAbogado(abogado2);
@@ -23,26 +23,30 @@ namespace AbogadosExpedientes
             alejo.agregarAbogado(abogado4);
             alejo.agregarAbogado(abogado5);
 
-            //funcion que imprime menu de opciones. NO HACE NADA MAS QUE ESO
+            //Expediente expediente1 = new Expediente(1, "Judicial", "Archivado", abogado1.Apellido, "nose");
+            //alejo.agregarExpediente(expediente1);
+
+            //funcion que imprime menu de opciones. 
             static void menu()
             {
                 Console.WriteLine("\nMenu de opciones");
                 Console.WriteLine("1. Mostrar buffet de abogados");
                 Console.WriteLine("2. Agregar abogado");
                 Console.WriteLine("3. Eliminar abogado");
+                Console.WriteLine("4. Lista de expedientes");
+                Console.WriteLine("5. Agregar expediente y asignarlo a un abogado");
                 Console.WriteLine("0. Salir\n");
             }
-
 
             menu();
             Console.WriteLine("Elija una opcion: ");
             int num = int.Parse(Console.ReadLine());
             while (num != 0)
-            {
+            {                
                 if (num == 1)
                 {
                     Console.WriteLine("\n\tBuffet de abogados\n");
-                    alejo.mostrar();
+                    alejo.mostrarAbogados();
                     menu();
                     Console.WriteLine("Elija una opcion: ");
                     num = int.Parse(Console.ReadLine());
@@ -63,14 +67,24 @@ namespace AbogadosExpedientes
                     Console.WriteLine("Elija una opcion: ");
                     num = int.Parse(Console.ReadLine());
                 }
+                else if (num == 4)
+                {
+                    Console.WriteLine("\n\tListado de expedientes\n");
+                    alejo.mostrarExpediente(); menu();                    
+                    Console.WriteLine("Elija una opcion: ");
+                    num = int.Parse(Console.ReadLine());
+                }
+                else if (num == 5)
+                {
+                    agregoExpe(alejo,alejo); menu();
+                    Console.WriteLine("Elija una opcion: ");
+                    num = int.Parse(Console.ReadLine());
+                }
             }
             Console.WriteLine("Ha salido correctamente del programa");
 
             static void agregaAbog(EstudioJuridico aboga)
-            {
-                string opcion = "";
-                while (opcion.ToLower() != "no".ToLower())
-                {
+            {                
                     Console.WriteLine("Nombre:");
                     string nom = Console.ReadLine();
                     Console.WriteLine("Apellido: ");
@@ -80,12 +94,9 @@ namespace AbogadosExpedientes
                     Console.WriteLine("Especialidad");
                     string esp = Console.ReadLine();
                     Console.WriteLine("Expedientes");
-                    string exp = Console.ReadLine();
+                    int exp = int.Parse(Console.ReadLine());
                     Abogado abogado = new Abogado(nom, ape, dni, esp, exp);
-                    aboga.agregarAbogado(abogado);
-                    Console.WriteLine("Si desea agregar otro abogado presione cualquier tecla y luego enter. Caso contrario ingrese 'NO'");
-                    opcion = Console.ReadLine();
-                }
+                    aboga.agregarAbogado(abogado);                    
             }
 
             static void borrarAbogado(EstudioJuridico aboga, string dni)
@@ -107,12 +118,39 @@ namespace AbogadosExpedientes
                     Console.WriteLine("El abogado se elimino con éxito");
                 }
             }
+
+            static void agregoExpe(EstudioJuridico exped, EstudioJuridico aboga)
+            {
+                Console.WriteLine("Numero:");
+                int num = int.Parse(Console.ReadLine());
+                Console.WriteLine("Tipo de tramite ");
+                string tramite = Console.ReadLine();
+                Console.WriteLine("Estado ");
+                string estado = Console.ReadLine();
+                Console.WriteLine("Abogado");
+                string abogado = Console.ReadLine();
+                Console.WriteLine("Titular");
+                string titular = Console.ReadLine();
+                Expediente expediente = new Expediente(num, tramite, estado, abogado, titular);
+                exped.agregarExpediente(expediente);
+                ArrayList recupero_lista_abogados;
+                recupero_lista_abogados = aboga.listAbogado();
+                foreach (Abogado abo in recupero_lista_abogados)
+                {
+                    if (abo.Cant_Expedientes < 6 && abo.Apellido == expediente.Abogado )
+                    {
+                        aboga.asignarExpediente(abo);
+                    }                    
+                }
+            }            
         }
+
         class EstudioJuridico
         {
             private ArrayList lista_abogados;
             private ArrayList lista_expedientes;
 
+            //metodo constructor
             public EstudioJuridico()
             {
                 lista_abogados = new ArrayList();
@@ -123,11 +161,11 @@ namespace AbogadosExpedientes
             {
                 lista_abogados.Add(xabogado);
             }
-            public void mostrar()
+            public void mostrarAbogados()
             {
                 foreach (Abogado xabogado in lista_abogados)
                 {
-                    Console.WriteLine($"{xabogado.Nombre} {xabogado.Apellido} - DNI: {xabogado.Dni} - Especialidad: {xabogado.Especialidad}");
+                    Console.WriteLine($"{xabogado.Nombre} {xabogado.Apellido} - DNI: {xabogado.Dni} - Expedientes: {xabogado.Cant_Expedientes}");
                 }
             }
             public void eliminarAbogado(Abogado xabogado)
@@ -143,16 +181,43 @@ namespace AbogadosExpedientes
             {
                 return lista_expedientes;
             }
+            //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            //metodos para expediente
+            public void agregarExpediente(Expediente expediente)
+            {
+                lista_expedientes.Add(expediente);
+            }
+            public void mostrarExpediente()
+            {
+                if (lista_expedientes.Count > 0)
+                {
+                    foreach (Expediente expediente in lista_expedientes)
+                    {
+                        Console.WriteLine($"{expediente.Numero} {expediente.Estado} {expediente.Abogado}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("NO HAY EXPEDIENTES CARGADOS");
+                }
+                    
+            }
+            public void asignarExpediente(Abogado xabogado)
+            {
+                xabogado.Cant_Expedientes += 1;
+            }
         }
+
         class Expediente
         {
-            private string numero;
+            private int numero;
             private string tipo_tramite;
             private string estado;
             private string abogado;
             private string titular;
 
-            public Expediente(string numero, string tipo_tramite, string estado, string abogado, string titular)
+            //metodo constructor
+            public Expediente(int numero, string tipo_tramite, string estado, string abogado, string titular)
             {
                 this.numero = numero;
                 this.tipo_tramite = tipo_tramite;
@@ -160,6 +225,12 @@ namespace AbogadosExpedientes
                 this.abogado = abogado;
                 this.titular = titular;
             }
+            public int Numero { get { return numero; } }
+            public string Tramite { get { return tipo_tramite; } }
+            public string Estado { get { return estado; } }
+            public string Abogado { get { return abogado; }set { abogado = value; } }
+            public string Titular { get { return tipo_tramite; } }
+            
 
         }
         class Abogado
@@ -168,9 +239,10 @@ namespace AbogadosExpedientes
             private string apellido;
             private string dni;
             private string especialidad;
-            private string cant_expedientes;
+            private int cant_expedientes;
 
-            public Abogado(string nombre, string apellido, string dni, string especialidad, string cant_expedientes)
+            //metodo constructor
+            public Abogado(string nombre, string apellido, string dni, string especialidad, int cant_expedientes)
             {
                 this.nombre = nombre;
                 this.apellido = apellido;
@@ -182,8 +254,9 @@ namespace AbogadosExpedientes
             public string Apellido { get { return apellido; } set { } }
             public string Dni { get { return dni; } set { } }
             public string Especialidad { get { return especialidad; } set { } }
-
+            public int Cant_Expedientes { get { return cant_expedientes; } set { cant_expedientes = value; } }
+            //si no hago un set de cant_expedientes no puedo agregarle expedientes ya que esta protegido.
         }
-        //estado: en letra, a despacho, en vista/giro, en fiscalia, preparalizado, archivado,   
+        
     }
-}//expedientes tipo judicial, administrativo, policial
+}
