@@ -10,7 +10,7 @@ namespace AbogadosExpedientes
             alejo = new EstudioJuridico(); //instancia de la clase EstudioJuridico
 
             //declaro y creo 5 objetos de la clase abogado
-            Abogado abogado1 = new Abogado("Javier", "Perez", "2222", "Laboral", 5);
+            Abogado abogado1 = new Abogado("Javier", "Perez", "2222", "Laboral", 0);
             Abogado abogado2 = new Abogado("Gabriela", "Acosta", "3333", "Penal", 0);
             Abogado abogado3 = new Abogado("Fernando", "Burlando", "4444", "Penal", 0);
             Abogado abogado4 = new Abogado("Matias", "Morla", "5555", "Comercial", 0);
@@ -26,8 +26,8 @@ namespace AbogadosExpedientes
             //Expediente expediente1 = new Expediente(1, "Judicial", "Archivado", abogado1.Apellido, "nose");
             //alejo.agregarExpediente(expediente1);
 
-            //funcion que imprime menu de opciones. 
-            static void menu()
+            //Menu de opciones
+            while (true)
             {
                 Console.WriteLine("\nMenu de opciones");
                 Console.WriteLine("1. Mostrar buffet de abogados");
@@ -35,50 +35,39 @@ namespace AbogadosExpedientes
                 Console.WriteLine("3. Eliminar abogado");
                 Console.WriteLine("4. Lista de expedientes");
                 Console.WriteLine("5. Agregar expediente y asignarlo a un abogado");
-                Console.WriteLine("0. Salir\n");
-            }
+                Console.WriteLine("6. Modificar el estado de un expediente");
+                Console.WriteLine("0. Salir\n");                
 
-            menu();
-            Console.WriteLine("Elija una opcion: ");
-            int num = int.Parse(Console.ReadLine());
-            while (num != 0)
-            {                
+                Console.WriteLine("Elija una opcion: ");
+                int num = int.Parse(Console.ReadLine());
+
                 if (num == 1)
                 {
                     Console.WriteLine("\n\tBuffet de abogados\n");
-                    alejo.mostrarAbogados();
-                    menu();
-                    Console.WriteLine("Elija una opcion: ");
-                    num = int.Parse(Console.ReadLine());
+                    alejo.mostrarAbogados(); Console.WriteLine("\n*************************");                    
                 }
                 else if (num == 2)
                 {
-                    agregaAbog(alejo);
-                    menu();
-                    Console.WriteLine("Elija una opcion: ");
-                    num = int.Parse(Console.ReadLine());
+                    agregaAbog(alejo); Console.WriteLine("\n*************************");
                 }
                 else if (num == 3)
                 {
                     Console.WriteLine("Para eliminar un abogado ingrese su dni: ");
                     string dni = Console.ReadLine();
-                    borrarAbogado(alejo, dni);
-                    menu();
-                    Console.WriteLine("Elija una opcion: ");
-                    num = int.Parse(Console.ReadLine());
+                    borrarAbogado(alejo, dni); Console.WriteLine("\n*************************");
                 }
                 else if (num == 4)
                 {
                     Console.WriteLine("\n\tListado de expedientes\n");
-                    alejo.mostrarExpediente(); menu();                    
-                    Console.WriteLine("Elija una opcion: ");
-                    num = int.Parse(Console.ReadLine());
+                    alejo.mostrarExpediente(); Console.WriteLine("\n*************************");
                 }
                 else if (num == 5)
                 {
-                    agregoExpe(alejo,alejo); menu();
-                    Console.WriteLine("Elija una opcion: ");
-                    num = int.Parse(Console.ReadLine());
+                    agregoExpe(alejo, alejo); Console.WriteLine("\n*************************");                      
+                }
+                else if (num == 0)
+                {
+                    break;
                 }
             }
             Console.WriteLine("Ha salido correctamente del programa");
