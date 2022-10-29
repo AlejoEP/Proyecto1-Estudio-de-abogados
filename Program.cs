@@ -65,6 +65,14 @@ namespace AbogadosExpedientes
                 {
                     agregoExpe(alejo, alejo); Console.WriteLine("\n*************************");                      
                 }
+                else if (num == 6)
+                {
+                    Console.WriteLine("Ingrese el numero del expediente: ");
+                    int numero = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Ingrese el nuevo estado: ");
+                    string estado = Console.ReadLine();
+                    cambiar_estado_exped(alejo,numero,estado); Console.WriteLine("\n*************************");
+                }
                 else if (num == 0)
                 {
                     break;
@@ -131,7 +139,24 @@ namespace AbogadosExpedientes
                         aboga.asignarExpediente(abo);
                     }                    
                 }
-            }            
+            }
+            static void cambiar_estado_exped(EstudioJuridico expedientes, int num, string estado)
+            {
+                ArrayList lista_exped = expedientes.listExpediente();//recupero la lista de expedientes
+                bool existe = false;
+                foreach (Expediente exped in lista_exped)
+                {
+                    if (num == exped.Numero)
+                    {
+                        exped.Estado = estado;
+                        existe = true;
+                    }
+                }
+                if (existe)
+                {
+                    Console.WriteLine($"El estado del expediente numero:{num} se modifico con exito");
+                }
+            }
         }
 
         class EstudioJuridico
@@ -168,7 +193,7 @@ namespace AbogadosExpedientes
             }
             public ArrayList listExpediente()
             {
-                return lista_expedientes;
+                return lista_expedientes; //me permite iterar sobra la lista de expedientes.
             }
             //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
             //metodos para expediente
@@ -195,57 +220,10 @@ namespace AbogadosExpedientes
             {
                 xabogado.Cant_Expedientes += 1;
             }
-        }
-
-        class Expediente
-        {
-            private int numero;
-            private string tipo_tramite;
-            private string estado;
-            private string abogado;
-            private string titular;
-
-            //metodo constructor
-            public Expediente(int numero, string tipo_tramite, string estado, string abogado, string titular)
+            public void modificarEstadoExped(Expediente exped, int num, string new_estado)
             {
-                this.numero = numero;
-                this.tipo_tramite = tipo_tramite;
-                this.estado = estado;
-                this.abogado = abogado;
-                this.titular = titular;
+                exped.Estado = new_estado;                
             }
-            public int Numero { get { return numero; } }
-            public string Tramite { get { return tipo_tramite; } }
-            public string Estado { get { return estado; } }
-            public string Abogado { get { return abogado; }set { abogado = value; } }
-            public string Titular { get { return tipo_tramite; } }
-            
-
-        }
-        class Abogado
-        {
-            private string nombre;
-            private string apellido;
-            private string dni;
-            private string especialidad;
-            private int cant_expedientes;
-
-            //metodo constructor
-            public Abogado(string nombre, string apellido, string dni, string especialidad, int cant_expedientes)
-            {
-                this.nombre = nombre;
-                this.apellido = apellido;
-                this.dni = dni;
-                this.especialidad = especialidad;
-                this.cant_expedientes = cant_expedientes;
-            }
-            public string Nombre { get { return nombre; } set { } }
-            public string Apellido { get { return apellido; } set { } }
-            public string Dni { get { return dni; } set { } }
-            public string Especialidad { get { return especialidad; } set { } }
-            public int Cant_Expedientes { get { return cant_expedientes; } set { cant_expedientes = value; } }
-            //si no hago un set de cant_expedientes no puedo agregarle expedientes ya que esta protegido.
-        }
-        
+        }      
     }
 }
