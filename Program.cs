@@ -39,44 +39,57 @@ namespace AbogadosExpedientes
                 Console.WriteLine("0. Salir\n");                
 
                 Console.WriteLine("Elija una opcion: ");
-                int num = int.Parse(Console.ReadLine());
+                try
+                {
+                    int num = int.Parse(Console.ReadLine());
 
-                if (num == 1)
+                    if (num == 1)
+                    {
+                        Console.WriteLine("\n\tBuffet de abogados\n");
+                        alejo.mostrarAbogados(); Console.WriteLine("\n*************************");
+                    }
+                    else if (num == 2)
+                    {
+                        agregaAbog(alejo); Console.WriteLine("\n*************************");
+                    }
+                    else if (num == 3)
+                    {
+                        Console.WriteLine("Para eliminar un abogado ingrese su dni: ");
+                        string dni = Console.ReadLine();
+                        borrarAbogado(alejo, dni); Console.WriteLine("\n*************************");
+                    }
+                    else if (num == 4)
+                    {
+                        Console.WriteLine("\n\tListado de expedientes\n");
+                        alejo.mostrarExpediente(); Console.WriteLine("\n*************************");
+                    }
+                    else if (num == 5)
+                    {
+                        agregoExpe(alejo, alejo); Console.WriteLine("\n*************************");
+                    }
+                    else if (num == 6)
+                    {
+                        Console.WriteLine("Ingrese el numero del expediente: ");
+                        int numero = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Ingrese el nuevo estado: ");
+                        string estado = Console.ReadLine();
+                        cambiar_estado_exped(alejo, numero, estado); Console.WriteLine("\n*************************");
+                    }
+                    else if (num == 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Esa opcion no existe. Vuelva a intentarlo.");
+                        Console.WriteLine("\n*************************");
+                    }
+                }catch (Exception error)
                 {
-                    Console.WriteLine("\n\tBuffet de abogados\n");
-                    alejo.mostrarAbogados(); Console.WriteLine("\n*************************");                    
+                    Console.WriteLine("Error. Por favor, ingrese un numero");
+                    Console.WriteLine("\n*************************");
                 }
-                else if (num == 2)
-                {
-                    agregaAbog(alejo); Console.WriteLine("\n*************************");
-                }
-                else if (num == 3)
-                {
-                    Console.WriteLine("Para eliminar un abogado ingrese su dni: ");
-                    string dni = Console.ReadLine();
-                    borrarAbogado(alejo, dni); Console.WriteLine("\n*************************");
-                }
-                else if (num == 4)
-                {
-                    Console.WriteLine("\n\tListado de expedientes\n");
-                    alejo.mostrarExpediente(); Console.WriteLine("\n*************************");
-                }
-                else if (num == 5)
-                {
-                    agregoExpe(alejo, alejo); Console.WriteLine("\n*************************");                      
-                }
-                else if (num == 6)
-                {
-                    Console.WriteLine("Ingrese el numero del expediente: ");
-                    int numero = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Ingrese el nuevo estado: ");
-                    string estado = Console.ReadLine();
-                    cambiar_estado_exped(alejo,numero,estado); Console.WriteLine("\n*************************");
-                }
-                else if (num == 0)
-                {
-                    break;
-                }
+                
             }
             Console.WriteLine("Ha salido correctamente del programa");
 
@@ -154,7 +167,7 @@ namespace AbogadosExpedientes
                 }
                 if (existe)
                 {
-                    Console.WriteLine($"El estado del expediente numero:{num} se modifico con exito");
+                    Console.WriteLine($"El estado del expediente numero {num} se modifico con exito");
                 }
             }
         }
@@ -220,10 +233,7 @@ namespace AbogadosExpedientes
             {
                 xabogado.Cant_Expedientes += 1;
             }
-            public void modificarEstadoExped(Expediente exped, int num, string new_estado)
-            {
-                exped.Estado = new_estado;                
-            }
+            
         }      
     }
 }
