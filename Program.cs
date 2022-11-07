@@ -8,23 +8,26 @@ namespace AbogadosExpedientes
         {
             EstudioJuridico alejo; //Declaro la variable alejo de tipo EstudioJuridico
             alejo = new EstudioJuridico(); //instancia de la clase EstudioJuridico
+                        
 
             //declaro y creo 5 objetos de la clase abogado
             Abogado abogado1 = new Abogado("Javier", "Perez", "2222", "Laboral", 0);
             Abogado abogado2 = new Abogado("Gabriela", "Acosta", "3333", "Penal", 0);
-            Abogado abogado3 = new Abogado("Fernando", "Burlando", "4444", "Penal", 0);
-            Abogado abogado4 = new Abogado("Matias", "Morla", "5555", "Comercial", 0);
-            Abogado abogado5 = new Abogado("Ana", "Rosenfel", "6666", "Familia", 0);            
-            
+           
             //metodo que agrega abogados
-            alejo.agregarAbogado(abogado1);
-            alejo.agregarAbogado(abogado2);
-            alejo.agregarAbogado(abogado3);
-            alejo.agregarAbogado(abogado4);
-            alejo.agregarAbogado(abogado5);
+            alejo.agregarAbogado(abogado1); 
+            alejo.agregarAbogado(abogado2);            
 
-            //Expediente expediente1 = new Expediente(1, "Judicial", "Archivado", abogado1.Apellido, "nose");
-            //alejo.agregarExpediente(expediente1);
+            Expediente expediente1 = new Expediente(1, "Judicial", "Archivado", abogado1.Apellido, "nose"); 
+            alejo.sumar_cantidad_expediente(abogado1);
+            alejo.agregarExpediente(expediente1);
+
+            Expediente expediente2 = new Expediente(2, "Previsional", "En despacho", abogado1.Apellido, "nose"); 
+            alejo.sumar_cantidad_expediente(abogado1);
+            alejo.agregarExpediente(expediente2);
+
+
+
 
             //Menu de opciones
             while (true)
@@ -65,15 +68,29 @@ namespace AbogadosExpedientes
                     }
                     else if (num == 5)
                     {
-                        agregoExpe(alejo, alejo); Console.WriteLine("\n*************************");
+                        agregoExpe(alejo); Console.WriteLine("\n*************************");
                     }
                     else if (num == 6)
                     {
-                        Console.WriteLine("Ingrese el numero del expediente: ");
-                        int numero = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Ingrese el nuevo estado: ");
-                        string estado = Console.ReadLine();
-                        cambiar_estado_exped(alejo, numero, estado); Console.WriteLine("\n*************************");
+
+                        bool esnumero;
+                        int valor = 0;                        
+
+                        do
+                        {
+                            Console.WriteLine("Ingrese el numero del expediente: ");
+                            string numero =Console.ReadLine();
+                            esnumero = int.TryParse(numero, out valor); //validamos que sea un numero, si es ture nos devuelve el numero
+
+                            if (!esnumero)
+                            {
+                                Console.WriteLine("Error. Por favor, ingrese un numero");
+                            }                                        
+                            
+                        }while (!esnumero);                      
+                        
+                        cambiar_estado_exped(alejo, valor); Console.WriteLine("\n*************************");                                               
+                       
                     }
                     else if (num == 0)
                     {
@@ -84,7 +101,7 @@ namespace AbogadosExpedientes
                         Console.WriteLine("Esa opcion no existe. Vuelva a intentarlo.");
                         Console.WriteLine("\n*************************");
                     }
-                }catch (Exception error)
+                }catch (Exception)
                 {
                     Console.WriteLine("Error. Por favor, ingrese un numero");
                     Console.WriteLine("\n*************************");
@@ -103,8 +120,9 @@ namespace AbogadosExpedientes
                     string dni = Console.ReadLine();
                     Console.WriteLine("Especialidad");
                     string esp = Console.ReadLine();
-                    Console.WriteLine("Expedientes");
-                    int exp = int.Parse(Console.ReadLine());
+
+
+                    int exp = 0;
                     Abogado abogado = new Abogado(nom, ape, dni, esp, exp);
                     aboga.agregarAbogado(abogado);                    
             }
@@ -129,7 +147,7 @@ namespace AbogadosExpedientes
                 }
             }
 
-            static void agregoExpe(EstudioJuridico exped, EstudioJuridico aboga)
+            static void agregoExpe(EstudioJuridico expedientes_abogados)
             {
                 Console.WriteLine("Numero:");
                 int num = int.Parse(Console.ReadLine());
@@ -137,39 +155,74 @@ namespace AbogadosExpedientes
                 string tramite = Console.ReadLine();
                 Console.WriteLine("Estado ");
                 string estado = Console.ReadLine();
-                Console.WriteLine("Abogado");
+                Console.WriteLine("Abogado a cargo");
                 string abogado = Console.ReadLine();
                 Console.WriteLine("Titular");
                 string titular = Console.ReadLine();
+
                 Expediente expediente = new Expediente(num, tramite, estado, abogado, titular);
-                exped.agregarExpediente(expediente);
+                                
                 ArrayList recupero_lista_abogados;
-                recupero_lista_abogados = aboga.listAbogado();
+                recupero_lista_abogados = expedientes_abogados.listAbogado();
+
+                bool check = false;
+                
                 foreach (Abogado abo in recupero_lista_abogados)
                 {
-                    if (abo.Cant_Expedientes < 6 && abo.Apellido == expediente.Abogado )
+                    if (abo.Cant_Expedientes < 6 && abo.Apellido.ToLower() == expediente.Abogado.ToLower() )
                     {
-                        aboga.asignarExpediente(abo);
-                    }                    
+                        expedientes_abogados.sumar_cantidad_expediente(abo);
+                        expedientes_abogados.agregarExpediente(expediente);
+
+                        check = true;
+                    }                   
+                }
+                if (check)
+                {
+                    Console.WriteLine("El expediente se cargo con exito");
+                }
+                else
+                {
+                    Console.WriteLine("Asignar a otro abogado");
                 }
             }
-            static void cambiar_estado_exped(EstudioJuridico expedientes, int num, string estado)
+
+
+            static void cambiar_estado_exped(EstudioJuridico expedientes, int num)
             {
                 ArrayList lista_exped = expedientes.listExpediente();//recupero la lista de expedientes
+                
                 bool existe = false;
+                int contador = 0;
+                
+                
                 foreach (Expediente exped in lista_exped)
                 {
                     if (num == exped.Numero)
                     {
+                        Console.WriteLine("Ingrese el nuevo estado: ");
+                        string estado = Console.ReadLine();
                         exped.Estado = estado;
-                        existe = true;
+                        existe = true;                        
+                        break;
                     }
+                    else
+                    {
+                        contador++;
+                    }                                        
                 }
                 if (existe)
                 {
                     Console.WriteLine($"El estado del expediente numero {num} se modifico con exito");
                 }
+                if (contador > 0)
+                {
+                    Console.WriteLine("Numero de expediente inexistente");
+
+                }                
+                
             }
+
         }
 
         class EstudioJuridico
@@ -208,7 +261,9 @@ namespace AbogadosExpedientes
             {
                 return lista_expedientes; //me permite iterar sobra la lista de expedientes.
             }
+
             //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            
             //metodos para expediente
             public void agregarExpediente(Expediente expediente)
             {
@@ -220,7 +275,7 @@ namespace AbogadosExpedientes
                 {
                     foreach (Expediente expediente in lista_expedientes)
                     {
-                        Console.WriteLine($"{expediente.Numero} {expediente.Estado} {expediente.Abogado}");
+                        Console.WriteLine($"Numero: {expediente.Numero}\nEstado: {expediente.Estado}\nAbogado a cargo: {expediente.Abogado}\n");
                     }
                 }
                 else
@@ -229,7 +284,7 @@ namespace AbogadosExpedientes
                 }
                     
             }
-            public void asignarExpediente(Abogado xabogado)
+            public void sumar_cantidad_expediente(Abogado xabogado)
             {
                 xabogado.Cant_Expedientes += 1;
             }
