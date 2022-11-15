@@ -42,6 +42,8 @@ namespace AbogadosExpedientes
         //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         //metodos para expediente
+
+
         public void agregarExpediente(Expediente expediente)
         {
             lista_expedientes.Add(expediente);
@@ -64,16 +66,8 @@ namespace AbogadosExpedientes
         public void eliminarExpediente(Expediente expediente)
         {
             lista_expedientes.Remove(expediente);
-        }
-        public void sumar_cantidad_expediente(Abogado xabogado)
-        {
-            xabogado.Cant_Expedientes += 1;
-        }
-        public void restar_cantidad_expediente(Abogado xabogado)
-        {
-            xabogado.Cant_Expedientes -= 1;
-        }
-
+        }        
+        
     }
 }
 
