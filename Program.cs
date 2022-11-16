@@ -43,6 +43,7 @@ namespace AbogadosExpedientes
                 Console.WriteLine("5. Agregar expediente y asignarlo a un abogado");
                 Console.WriteLine("6. Modificar el estado de un expediente");
                 Console.WriteLine("7. Eliminar expediente");
+                Console.WriteLine("8. Listado de expedientes de tipo ‘audiencia’ que se hayan presentado en un mes determinado ");
                 Console.WriteLine("0. Salir\n");
 
                 Console.WriteLine("Elija una opcion: ");
@@ -101,6 +102,12 @@ namespace AbogadosExpedientes
                         Console.WriteLine("Ingrese el numero del expediente que desea borrar: ");
                         int numero = int.Parse(Console.ReadLine());
                         borrarExpediente(estudioJuridico, numero);
+                    }
+                    else if (num == 8)
+                    {
+                        Console.WriteLine("Ingrese numero de mes:");
+                        int xmes = int.Parse(Console.ReadLine());
+                        lista_expedientes_tipo_audiencia(estudioJuridico, xmes);
                     }
                     else if (num == 0)
                     {
@@ -296,6 +303,40 @@ namespace AbogadosExpedientes
                     }
                 }
 
+            }
+
+            static void lista_expedientes_tipo_audiencia(EstudioJuridico expedientes_o_abogados, int mes)
+            {
+                ArrayList lista_expedientes;
+                ArrayList lista_abogados;
+
+                ArrayList expedientes_tipo_audiencia = new ArrayList();
+
+                bool check = false;
+
+                lista_expedientes = expedientes_o_abogados.listExpediente();
+                lista_abogados = expedientes_o_abogados.listAbogado();
+
+                foreach (Expediente exped in lista_expedientes)
+                {
+                    if (exped.Tramite.ToLower() == "Audiencia".ToLower() && exped.FechaDePresentacion.Month == mes)
+                    {
+                        expedientes_tipo_audiencia.Add(exped);
+                        check = true;
+                    }
+                }
+
+                if (!check)
+                {
+                    Console.WriteLine("No se han encontrado expedientes que cumplan los parametros requeridos");
+                }
+                else
+                {
+                    foreach (Expediente exped in expedientes_tipo_audiencia)
+                    {
+                        Console.WriteLine($"{exped.Tramite} {exped.Abogado}");
+                    }
+                }
             }
         }          
     }
