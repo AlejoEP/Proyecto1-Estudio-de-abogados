@@ -22,7 +22,8 @@ namespace AbogadosExpedientes
         {
             foreach (Abogado xabogado in lista_abogados)
             {
-                Console.WriteLine($"{xabogado.Nombre} {xabogado.Apellido} - DNI: {xabogado.Dni} - Expedientes: {xabogado.Cant_Expedientes}");
+                Console.WriteLine($"Nombre y apellido: {xabogado.Nombre} {xabogado.Apellido}\nDNI: {xabogado.Dni}" +
+                    $"\nEspecialidad: {xabogado.Especialidad}\nExpedientes: {xabogado.Cant_Expedientes}\n---------------------------------");
             }
         }
         public void eliminarAbogado(Abogado xabogado)
@@ -54,7 +55,8 @@ namespace AbogadosExpedientes
             {
                 foreach (Expediente expediente in lista_expedientes)
                 {
-                    Console.WriteLine($"Numero: {expediente.Numero}\nEstado: {expediente.Estado}\nAbogado a cargo: {expediente.Abogado}\n");
+                    Console.WriteLine($"Numero de expediente: {expediente.Numero}\nTipo de tramite: {expediente.Tramite}\nEstado: {expediente.Estado}\n" +
+                        $"Abogado a cargo: {expediente.Abogado}\nFecha de presentacion: {expediente.FechaDePresentacion}\n----------------------------");
                 }
             }
             else
