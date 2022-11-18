@@ -107,7 +107,7 @@ namespace AbogadosExpedientes
                     {
                         Console.WriteLine("Ingrese numero de mes:");
                         int xmes = int.Parse(Console.ReadLine());
-                        lista_expedientes_tipo_audiencia(estudioJuridico, xmes);
+                        lista_expedientes_tipo_audiencia(estudioJuridico, xmes); Console.WriteLine("\n------------------------------");
                     }
                     else if (num == 0)
                     {
@@ -307,15 +307,14 @@ namespace AbogadosExpedientes
 
             static void lista_expedientes_tipo_audiencia(EstudioJuridico expedientes_o_abogados, int mes)
             {
-                ArrayList lista_expedientes;
-                ArrayList lista_abogados;
+                ArrayList lista_expedientes;                
 
-                ArrayList expedientes_tipo_audiencia = new ArrayList();
+                ArrayList expedientes_tipo_audiencia = new ArrayList(); //creamos un nuevo Arraylist para guardar los expedientes tipo audiencia
 
                 bool check = false;
 
                 lista_expedientes = expedientes_o_abogados.listExpediente();
-                lista_abogados = expedientes_o_abogados.listAbogado();
+                
 
                 foreach (Expediente exped in lista_expedientes)
                 {
@@ -334,7 +333,7 @@ namespace AbogadosExpedientes
                 {
                     foreach (Expediente exped in expedientes_tipo_audiencia)
                     {
-                        Console.WriteLine($"{exped.Tramite} {exped.Abogado}");
+                        Console.WriteLine($"\nTipo de tramite: {exped.Tramite}\nFecha de presentacion: {exped.FechaDePresentacion}\nAbogado a cargo: {exped.Abogado}");
                     }
                 }
             }
