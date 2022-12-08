@@ -19,7 +19,7 @@ namespace AbogadosExpedientes
             this.dni = dni;
             this.especialidad = especialidad;
             this.cant_expedientes = cant_expedientes;
-            limite = 3;
+            limite = 5;
         }
         public string Nombre { get { return nombre; } set { } }
         public string Apellido { get { return apellido; } set { } }
