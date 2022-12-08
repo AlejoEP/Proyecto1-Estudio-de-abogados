@@ -316,6 +316,7 @@ namespace AbogadosExpedientes
                 lista_expediente = expedientes_abogados.listExpediente(); //tomo la lista de expedientes
 
                 bool esta = false;
+                string? expediente = null; //el compilador de C# no permite el uso de variables no inicializadas/asignadas
 
 
                 foreach (Expediente exped in lista_expediente)
@@ -324,6 +325,7 @@ namespace AbogadosExpedientes
                     {
                         expedientes_abogados.eliminarExpediente(exped);
                         esta = true;
+                        expediente = exped.Abogado;
                         break;
                     }                   
 
@@ -338,7 +340,7 @@ namespace AbogadosExpedientes
 
                 foreach (Abogado abogado in lista_abogados)
                 {
-                    if (esta) // cuando el valor booleano cambia a verdadero es xq elimina el expediente, entonces 
+                    if (abogado.Apellido == expediente) // cuando el valor booleano cambia a verdadero es xq elimina el expediente, entonces 
                     {
                         abogado.restar_un_expediente();
                         break;

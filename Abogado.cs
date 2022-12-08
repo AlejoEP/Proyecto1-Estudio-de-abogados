@@ -22,7 +22,7 @@ namespace AbogadosExpedientes
             limite = 5;
         }
         public string Nombre { get { return nombre; } set { } }
-        public string Apellido { get { return apellido; } set { } }
+        public string Apellido { get { return apellido; } set { apellido = value; } }
         public string Dni { get { return dni; } set { } }
         public string Especialidad { get { return especialidad; } set { } }
         public int Cant_Expedientes { get { return cant_expedientes; } set { cant_expedientes = value; } }
