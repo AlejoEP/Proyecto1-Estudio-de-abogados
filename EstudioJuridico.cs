@@ -33,7 +33,7 @@ namespace AbogadosExpedientes
 
         public ArrayList listAbogado()
         {
-            return lista_abogados;
+            return lista_abogados; 
         }
         public ArrayList listExpediente()
         {
@@ -55,8 +55,8 @@ namespace AbogadosExpedientes
             {
                 foreach (Expediente expediente in lista_expedientes)
                 {
-                    Console.WriteLine($"Numero de expediente: {expediente.Numero}\nTipo de tramite: {expediente.Tramite}\nEstado: {expediente.Estado}\n" +
-                        $"Abogado a cargo: {expediente.Abogado}\nFecha de presentacion: {expediente.FechaDePresentacion}\n----------------------------");
+                    Console.WriteLine($"Numero de expediente: {expediente.Numero}\nTitular: {expediente.Titular}\nTipo de tramite: {expediente.Tramite}\n" +
+                        $"Estado: {expediente.Estado}\nAbogado a cargo: {expediente.Abogado}\nFecha de presentacion: {expediente.FechaDePresentacion}\n----------------------------");                    
                 }
             }
             else
